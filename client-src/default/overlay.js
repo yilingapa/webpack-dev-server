@@ -4,7 +4,8 @@
 // They, in turn, got inspired by webpack-hot-middleware (https://github.com/glenjamin/webpack-hot-middleware).
 
 const ansiHTML = require('ansi-html');
-const { AllHtmlEntities, encode } = require('html-entities');
+const { encode } = require('html-entities');
+const { AllHtmlEntities } = require('html-entities');
 
 const entities = new AllHtmlEntities();
 const colors = {
