@@ -121,7 +121,7 @@ function showMessage(errors) {
     const strippedErrors = errors.map((error) => stripAnsi(error));
     let button = ''
     if (strippedErrors[0] && strippedErrors[0].file) {
-      button += `<button onclick="">打开编辑器</button>`
+      button += `<button onclick="function(){window.webpackErrorLayerOpenEditorCB('${strippedErrors[0].file}')}">打开编辑器</button>`
     }
     // Make it look similar to our terminal.
     const errorMessage = errors[0].message || errors[0];
