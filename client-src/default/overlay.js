@@ -121,12 +121,11 @@ function showMessage(errors) {
     const strippedErrors = errors.map((error) => stripAnsi(error));
     let button = ''
     if (strippedErrors[0] && strippedErrors[0].file) {
-      button += `<button onclick="fetch('${launchEditorEndpoint}?fileName=${strippedErrors[0].file}')">打开编辑器</button>`
+      button += `<button onclick="fetch('${launchEditorEndpoint}?fileName=${strippedErrors[0].file}')">编辑器中打开</button>`
     }
     // Make it look similar to our terminal.
     const errorMessage = errors[0].message || errors[0];
     const text = ansiHTML(encode(errorMessage));
-    console.log(button);
     div.innerHTML = `<span style="color: #${colors.red}">Failed to compile. ${button}</span><br><br>${text}`;
   });
 }
