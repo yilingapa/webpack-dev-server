@@ -5,6 +5,7 @@
 
 const ansiHTML = require('ansi-html');
 const { encode } = require('html-entities');
+const stripAnsi = require('strip-ansi');
 
 const colors = {
   reset: ['transparent', 'transparent'],
@@ -108,13 +109,24 @@ function clear() {
   lastOnOverlayDivReady = null;
 }
 
+const launchEditorEndpoint = '/__open-stack-frame-in-editor'
+window.webpackErrorLayerOpenEditorCB = function (fileName) {
+  console.log('fileName: ', fileName);
+  fetch(`${launchEditorEndpoint}?fileName=${fileName}`)
+}
+
 // Compilation with errors (e.g. syntax error or missing modules).
-function showMessage(messages) {
+function showMessage(errors) {
   ensureOverlayDivExists((div) => {
+    const strippedErrors = errors.map((error) => stripAnsi(error));
+    let button = ''
+    if (strippedErrors[0] && strippedErrors[0].file) {
+      button += `<button onclick="">打开编辑器</button>`
+    }
     // Make it look similar to our terminal.
-    const errorMessage = messages[0].message || messages[0];
+    const errorMessage = errors[0].message || errors[0];
     const text = ansiHTML(encode(errorMessage));
-    div.innerHTML = `<span style="color: #${colors.red}">Failed to compile.</span><br><br>${text}`;
+    div.innerHTML = `<span style="color: #${colors.red}">Failed to compile. ${button}</span><br><br>${text}`;
   });
 }
 
