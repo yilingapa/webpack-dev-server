@@ -112,7 +112,7 @@ function clear() {
 const launchEditorEndpoint = '/__open-stack-frame-in-editor'
 window.webpackErrorLayerOpenEditorCB = function (fileName) {
   console.log('fileName: ', fileName);
-  fetch(`${launchEditorEndpoint}?fileName=${fileName}`)
+
 }
 
 // Compilation with errors (e.g. syntax error or missing modules).
@@ -121,7 +121,7 @@ function showMessage(errors) {
     const strippedErrors = errors.map((error) => stripAnsi(error));
     let button = ''
     if (strippedErrors[0] && strippedErrors[0].file) {
-      button += `<button onclick="window.webpackErrorLayerOpenEditorCB('${strippedErrors[0].file}')">打开编辑器</button>`
+      button += `<button onclick="fetch(${launchEditorEndpoint}?fileName=${strippedErrors[0].file})">打开编辑器</button>`
     }
     // Make it look similar to our terminal.
     const errorMessage = errors[0].message || errors[0];
